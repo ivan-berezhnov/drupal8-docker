@@ -19,6 +19,8 @@ chmod +x /usr/local/bin/drupal
 
 composer global require drupal/console:@stable
 echo "PATH=$PATH:~/.composer/vendor/bin" >> ~/.bash_profile
+composer global require drupal/console:~1.0 --prefer-dist --optimize-autoloader
+composer update drupal/console --with-dependencies
 
 # Download latest stable release using the code below or browse to github.com/drush-ops/drush/releases.
 php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > drush
