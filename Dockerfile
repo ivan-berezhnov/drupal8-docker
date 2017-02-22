@@ -10,6 +10,9 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev curl
 	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
 	&& docker-php-ext-install gd mbstring opcache pdo pdo_mysql pdo_pgsql zip
 
+RUN docker-php-ext-install json
+RUN docker-php-ext-enable json
+
 # Enable and configure xdebug
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
@@ -26,17 +29,29 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 # Enable Remote xdebug
-RUN { \
-		echo 'xdebug.idekey = PHPSTORM'; \
-		echo 'xdebug.default_enable = 0'; \
-		echo 'xdebug.remote_enable = 1'; \
-		echo 'xdebug.remote_autostart = 0'; \
-		echo 'xdebug.remote_connect_back = 0'; \
-		echo 'xdebug.profiler_enable = 0'; \
-		echo 'xdebug.remote_log = /tmp/xdebug.log'; \
-		echo 'xdebug.remote_host = 10.254.254.254'; \
-    } > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.remote_autostart=true >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.remote_mode=req >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.remote_handler=dbgp >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.remote_connect_back=1 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.remote_port=9000 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# RUN echo xdebug.remote_host=127.0.0.1 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.idekey=PHPSTORM >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.remote_enable=1 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.profiler_append=0 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.profiler_enable=0 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.profiler_enable_trigger=1 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.profiler_output_dir=/var/debug >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.profiler_output_name=cachegrind.out.%s.%u >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.var_display_max_data=-1 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.var_display_max_children=-1 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo xdebug.var_display_max_depth=-1 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
+
+
+RUN apt-get install -y wget
+RUN wget https://phar.phpunit.de/phpunit.phar
+RUN chmod +x phpunit.phar
+RUN mv phpunit.phar /usr/local/bin/phpunit
 WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
