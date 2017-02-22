@@ -23,7 +23,7 @@ WORKDIR /var/www/html
 EXPOSE 80 22 35729 9876
 #CMD ["/usr/bin/supervisord"]
 
-curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
+RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
 	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
 	&& tar -xz --strip-components=1 -f drupal.tar.gz \
 	&& rm drupal.tar.gz \
