@@ -7,7 +7,7 @@ MAINTAINER Ivan Berezhnov <ivan.berezhnov@icloud.com>
 
 #ADD supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
-RUN chmod +x /*.sh
+#RUN chmod +x /*.sh
 
 #RUN /provision.sh
 
