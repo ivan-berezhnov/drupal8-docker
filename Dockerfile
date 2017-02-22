@@ -34,5 +34,5 @@ RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.ta
 	&& chown -R www-data:www-data sites modules themes
 
 # Install packages
-ADD provision.sh /provision.sh
-RUN ./provision.sh
+#ADD provision.sh /provision.sh
+#RUN ./provision.sh
