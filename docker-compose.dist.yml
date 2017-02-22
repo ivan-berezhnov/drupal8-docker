@@ -1,5 +1,11 @@
-web:
-    image: shincoder/homestead:php7.0
+version: '2'
+
+services:
+ 
+  # Add drupal contener.
+  drupal:
+    image: "ivoberz/drupal8-docker"
+    container_name: "${PROJECT_NAME}-drupal"
     restart: always
     ports:
         - "8000:80" # web
@@ -7,22 +13,50 @@ web:
         - "35729:35729" # live reload
         - "9876:9876" # karma server
     volumes:
-        - ~/.composer:/home/homestead/.composer # composer caching
-        - ~/.gitconfig:/home/homestead/.gitconfig # Git configuration ( access alias && config )
-        - ~/.ssh:/home/homestead/.ssh # Ssh keys for easy deployment inside the container
-        - ~/apps:/apps # all apps
-        - ~/apps/volumes/nginx/sites-available:/etc/nginx/sites-available # nginx sites ( in case you recreate the container )
-        - ~/apps/volumes/nginx/sites-enabled:/etc/nginx/sites-enabled # nginx sites ( in case you recreate the container )
+      - ./drupal:/var/www/html
+      - ./.composer:/home/drupal/.composer # composer caching
+      - ./.gitconfig:/home/drupal/.gitconfig # Git configuration ( access alias && config )
+      - ./.ssh:/home/drupal/.ssh # Ssh keys for easy deployment inside the container
+      - ./nginx/sites-available:/etc/nginx/sites-available # nginx sites ( in case you recreate the container )
+      - ./nginx/sites-enabled:/etc/nginx/sites-enabled # nginx sites ( in case you recreate the container )
     links:
-        - mariadb
-
-mariadb:
-    image: tutum/mariadb
+      - mysql
+  
+  # Add MariaDB contener.
+  mysql:
+    image: mariadb
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --init-connect='SET NAMES UTF8;'
+    container_name: "${PROJECT_NAME}-mariadb"
     restart: always
-    ports:
-        - "33060:3306"
-    environment:
-        MARIADB_USER: admin # cannot be changed ( for info. only )
-        MARIADB_PASS: root
     volumes:
-        - ~/apps/volumes/mysql:/var/lib/mysql # database files
+      - ./mariadb/date:/var/lib/mysql:rw
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=drupal
+    ports:
+      - 3306:3306
+
+  # Add Adminer contener.
+  adminer:
+    image: clue/adminer
+    container_name: "${PROJECT_NAME}-adminer"
+    ports:
+      - 8081:80
+    environment:
+      - MYSQL_USERNAME=root
+      - MYSQL_ROOT_PASSWORD=1234
+    links:
+      - mysql
+
+  # Add PHPMyAdmin contener.
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: "${PROJECT_NAME}-phpmyadmin"
+    links:
+      - mysql
+    ports:
+      - 8082:80
+    environment:
+      - MYSQL_USERNAME=root
+      - MYSQL_ROOT_PASSWORD=1234
+      - PMA_HOST=mysql
