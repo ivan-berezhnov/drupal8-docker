@@ -147,8 +147,8 @@ echo "$block" > "/etc/nginx/sites-enabled/default"
 
 /usr/bin/supervisord
 
-cd /var/www/html && 
+cd /var/www/html
 wget http://ftp.drupal.org/files/projects/drupal-8.2.6.tar.gz
-&& tar -xvzf drupal-8.2.6.tar.gz
-&& rm drupal-8.2.6.tar.gz
-&& chown -R www-data:www-data sites modules themes
+tar -xvzf drupal-8.2.6.tar.gz
+rm drupal-8.2.6.tar.gz
+chown -R www-data:www-data sites modules themes
