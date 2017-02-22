@@ -29,3 +29,8 @@ php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > drus
 # Make `drush` executable as a command from anywhere. Destination can be anywhere on $PATH.
 chmod +x drush
 mv drush /usr/local/bin
+
+apt-get install -y wget
+wget https://phar.phpunit.de/phpunit.phar
+chmod +x phpunit.phar
+mv phpunit.phar /usr/local/bin/phpunit
