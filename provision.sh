@@ -144,3 +144,11 @@ rm /etc/nginx/sites-available/default
 
 cat > /etc/nginx/sites-enabled/default
 echo "$block" > "/etc/nginx/sites-enabled/default"
+
+/usr/bin/supervisord
+
+cd /var/www/html && curl -fSL "https://ftp.drupal.org/files/projects/drupal-8.2.6.tar.gz" -o drupal.tar.gz \
+&& echo "57526a827771ea8a06db1792f1602a85 *drupal.tar.gz" | md5sum -c - \
+&& tar -xz --strip-components=1 -f drupal.tar.gz \
+&& rm drupal.tar.gz \
+&& chown -R www-data:www-data sites modules themes
