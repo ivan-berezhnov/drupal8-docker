@@ -1,5 +1,5 @@
 FROM php:7.0-apache
-MAINTAINER Jaouad E. <ivan.berezhnov@icloud.com>
+MAINTAINER Ivan Berezhnov <ivan.berezhnov@icloud.com>
 
 # Install packages
 ADD provision.sh /provision.sh
