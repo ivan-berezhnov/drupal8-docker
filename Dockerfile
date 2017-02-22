@@ -35,4 +35,4 @@ RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.ta
 
 # Install packages
 ADD provision.sh /provision.sh
-RUN ./provision.sh
+RUN /provision.sh
