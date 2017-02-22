@@ -27,14 +27,14 @@ RUN { \
 
 # Enable Remote xdebug
 RUN { \
-       echo 'xdebug.remote_enable = 1'; \
-       echo 'xdebug.remote_connect_back = 1'; \
-       echo 'xdebug.remote_port = 9000'; \
-       echo 'xdebug.var_display_max_depth = -1'; \
-       echo 'xdebug.var_display_max_children = -1'; \
-       echo 'xdebug.var_display_max_data = -1'; \
-       echo 'xdebug.max_nesting_level = 500'; \
-       echo 'xdebug.idekey = DRUPAL'; \
+		echo 'xdebug.idekey = PHPSTORM'; \
+		echo 'xdebug.default_enable = 0'; \
+		echo 'xdebug.remote_enable = 1'; \
+		echo 'xdebug.remote_autostart = 0'; \
+		echo 'xdebug.remote_connect_back = 0'; \
+		echo 'xdebug.profiler_enable = 0'; \
+		echo 'xdebug.remote_log = /tmp/xdebug.log'; \
+		echo 'xdebug.remote_host = 10.254.254.254'; \
     } > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 WORKDIR /var/www/html
