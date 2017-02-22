@@ -26,9 +26,6 @@ composer update drupal/console --with-dependencies
 php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > drush
 # Or use our upcoming release: php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush-unstable.phar');" > drush
 
-# Test your install.
-php drush core-status
-
 # Make `drush` executable as a command from anywhere. Destination can be anywhere on $PATH.
 chmod +x drush
 mv drush /usr/local/bin
