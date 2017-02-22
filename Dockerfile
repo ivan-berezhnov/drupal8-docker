@@ -9,7 +9,7 @@ ADD provision.sh /provision.sh
 
 RUN chmod +x /*.sh
 
-RUN ./provision.sh
+RUN /provision.sh
 
 WORKDIR /var/www/html
 
