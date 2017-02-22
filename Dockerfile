@@ -47,11 +47,6 @@ RUN echo xdebug.var_display_max_children=-1 >> /usr/local/etc/php/conf.d/docker-
 RUN echo xdebug.var_display_max_depth=-1 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 
-
-RUN apt-get install -y wget
-RUN wget https://phar.phpunit.de/phpunit.phar
-RUN chmod +x phpunit.phar
-RUN mv phpunit.phar /usr/local/bin/phpunit
 WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
