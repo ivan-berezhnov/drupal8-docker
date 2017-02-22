@@ -1,25 +1,6 @@
 FROM php:7.0-apache
 MAINTAINER Ivan Berezhnov <ivan.berezhnov@icloud.com>
 
-# Install packages
-#ADD provision.sh /provision.sh
-#ADD serve.sh /serve.sh
-
-#ADD supervisor.conf /etc/supervisor/conf.d/supervisor.conf
-
-#RUN chmod +x /*.sh
-
-#RUN /provision.sh
-
-
-# Force Locale
-RUN echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale \
-    && locale-gen en_US.UTF-8 \
-    && export LANG=en_US.UTF-8
-
-# Timezone
-RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
-
 # PHP
 RUN apt-get install -y libpng12-dev libjpeg-dev libpq-dev \
 	&& rm -rf /var/lib/apt/lists/* \
